@@ -19,6 +19,11 @@ from django.urls import path, re_path, include
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.http import HttpResponseRedirect
+
+
+def redirect_to_docs(request):
+    return HttpResponseRedirect("docs/")
 
 
 schema_view = get_schema_view(
@@ -32,6 +37,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+    path("", redirect_to_docs),
     path("admin/", admin.site.urls),
     path("core/", include("core.urls")),
     path(
