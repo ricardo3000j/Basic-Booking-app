@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  reservation-app:
+      build:
+        context: .
+        dockerfile: ./docker/Dockerfile
+      image: reservation_django
+      container_name: reservation-app
+      restart: unless-stopped
+      stdin_open: true
+      tty: true
+      volumes:
+        - "./:/southern_test"
+      command: /start.sh
+      ports:
+        - "8000:8000"
+      expose:
+        - "8000"
+      networks:
+        - southern-network
+
+networks:
+  southern-network:
+    driver: bridge
+    name: southern-network
