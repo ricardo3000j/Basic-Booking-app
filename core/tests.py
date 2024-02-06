@@ -59,3 +59,15 @@ class BookingTestCase(TestCase):
         if serializer.is_valid():
             booking = serializer.save()
             self.assertAlmostEqual(booking.final_price, 101)
+
+    def test_case_4(self):
+        serializer = BookingSerializer(
+            data={
+                "property": self.property.id,
+                "date_start": date(2022, 1, 1),
+                "date_end": date(2022, 1, 10),
+            }
+        )
+        if serializer.is_valid():
+            booking = serializer.save()
+            self.assertAlmostEqual(booking.final_price, 100)
