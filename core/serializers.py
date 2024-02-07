@@ -43,7 +43,7 @@ class BookingSerializer(serializers.ModelSerializer):
         model = Booking
         fields = ["property", "date_start", "date_end", "final_price"]
 
-    def create(self, validated_data):
+    def create(self, validated_data) -> Booking:
         """Create new booking instance and
         Calculate the final price based on the pricing rules of the property
         """
