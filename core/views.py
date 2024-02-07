@@ -6,6 +6,8 @@ from .serializers import PricingRuleSerializer, PropertySerializer, BookingSeria
 
 
 class PropertyViewSet(viewsets.ModelViewSet):
+    """CRUD operations for property model based on viewset"""
+
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
     filter_backends = [DjangoFilterBackend]
@@ -13,11 +15,15 @@ class PropertyViewSet(viewsets.ModelViewSet):
 
 
 class PricingRuleViewSet(viewsets.ModelViewSet):
+    """CRUD operations for PricingRule model based on viewset"""
+
     queryset = PricingRule.objects.all()
     serializer_class = PricingRuleSerializer
 
 
 class BookingViewSet(viewsets.ModelViewSet):
+    """CRUD operations for Booking model based on viewset"""
+
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
     filter_backends = [DjangoFilterBackend]

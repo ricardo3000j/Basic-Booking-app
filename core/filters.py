@@ -3,7 +3,7 @@ from .models import Property, Booking
 
 
 class PropertyFilter(django_filters.FilterSet):
-    """Django filter for property model"""
+    """Django filters for property model"""
 
     name = django_filters.CharFilter(lookup_expr="icontains")
     """Filter properties by name with case insensitive search"""
@@ -20,9 +20,13 @@ class PropertyFilter(django_filters.FilterSet):
 
 
 class BookingFilter(django_filters.FilterSet):
+    """Django filters for booking model"""
     date_start = django_filters.DateFilter(field_name="date_start")
+    """Filter for booking by start date"""
     date_end = django_filters.DateFilter(field_name="date_end")
+    """Filter for booking by end date"""
     property = django_filters.NumberFilter(field_name="property")
+    """Filter for booking based on property id"""
 
     class Meta:
         model = Booking

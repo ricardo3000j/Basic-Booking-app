@@ -4,7 +4,9 @@ from datetime import timedelta
 
 
 class PropertySerializer(serializers.ModelSerializer):
-    """Serializer for property model"""
+    """Serializer for property model
+    fields to validate: id, name, base_price
+    """
 
     class Meta:
         model = Property
@@ -12,7 +14,10 @@ class PropertySerializer(serializers.ModelSerializer):
 
 
 class PricingRuleSerializer(serializers.ModelSerializer):
-    """Serializer for pricing rule model"""
+    """Serializer for pricing rule model
+    fields to validate: property, price_modifier,
+    min_stay_length, fixed_price, specific_day
+    """
 
     class Meta:
         model = PricingRule
@@ -26,13 +31,24 @@ class PricingRuleSerializer(serializers.ModelSerializer):
 
 
 class BookingSerializer(serializers.ModelSerializer):
+    """Serializer for booking model
+    fields to validate: property, date_start, date_end
+    methods: create - create new booking instance and
+    Calculate the final price based on the pricing rules of the property
+    """
+
+    final_price = serializers.FloatField(read_only=True)
+
     class Meta:
         model = Booking
-        fields = ["property", "date_start", "date_end"]
+        fields = ["property", "date_start", "date_end", "final_price"]
 
     def create(self, validated_data):
+        """Create new booking instance and
+        Calculate the final price based on the pricing rules of the property
+        """
+
         booking = Booking.objects.create(**validated_data)
-        # Calculate the final price based on the pricing rules of the property
         date_range = [
             booking.date_start + timedelta(days=i)
             for i in range((booking.date_end - booking.date_start).days + 1)
@@ -52,7 +68,7 @@ class BookingSerializer(serializers.ModelSerializer):
                     + 1,
                 )
 
-            # If there are still no rules, set the base price and continue to the next date
+            # If there are still no rules, set the base price and continue to next date
             if not pricing_rules.exists():
                 total_price += booking.property.base_price
                 continue
@@ -64,7 +80,7 @@ class BookingSerializer(serializers.ModelSerializer):
             rule = pricing_rules.first()
 
             # Calculate the price for this date
-            if rule.fixed_price is not None:
+            if rule.fixed_price is not None and date == rule.specific_day:
                 price = rule.fixed_price
             elif rule.price_modifier is not None:
                 price = booking.property.base_price * (1 + rule.price_modifier / 100)
