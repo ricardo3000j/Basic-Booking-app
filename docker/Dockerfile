@@ -35,3 +35,5 @@ EXPOSE 8000
 RUN chmod +x /start.sh && chown southern:southern /start.sh
 
 USER southern
+
+CMD ["sh","/start.sh"]
