@@ -28,6 +28,9 @@ RUN poetry config virtualenvs.create false \
 # copy bash script
 COPY docker/start.sh /start.sh
 
+#Expose port
+EXPOSE 8000
+
 # set permission for our bash file
 RUN chmod +x /start.sh && chown southern:southern /start.sh
 
