@@ -22,6 +22,7 @@ class PricingRuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = PricingRule
         fields = [
+            "id",
             "property",
             "price_modifier",
             "min_stay_length",
@@ -41,7 +42,7 @@ class BookingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Booking
-        fields = ["property", "date_start", "date_end", "final_price"]
+        fields = ["id", "property", "date_start", "date_end", "final_price"]
 
     def create(self, validated_data) -> Booking:
         """Create new booking instance and
