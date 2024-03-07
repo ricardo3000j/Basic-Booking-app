@@ -1,4 +1,4 @@
-Southern Code Django challenge
+
 
 This project represents a real life API which is used for listing and booking properties.
 
